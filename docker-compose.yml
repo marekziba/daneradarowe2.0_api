@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  daneradaroweapi:
+    image: ${DOCKER_REGISTRY-}daneradaroweapi
+    build:
+      context: .
+      dockerfile: DaneradaroweApi/Dockerfile
+    networks:
+      - daneradarowe
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: daneradarowe_postgres
+    ports:
+      - 5432:5432
+    networks:
+      - daneradarowe
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=postgres
+
+networks:
+  daneradarowe:
+    name: daneradarowe-network
