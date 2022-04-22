@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DaneradaroweApi.Models
 {
@@ -32,6 +33,7 @@ namespace DaneradaroweApi.Models
 
         // M:N relationships
         public List<Scan> Scans { get; set; } = default!;
+        [JsonIgnore]
         public List<Radar> Radars { get; set; } = default!;
     }
 }

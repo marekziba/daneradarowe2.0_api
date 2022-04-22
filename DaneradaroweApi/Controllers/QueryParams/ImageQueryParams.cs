@@ -1,7 +1,10 @@
-﻿namespace DaneradaroweApi.Controllers.QueryParams
+﻿namespace DaneradaroweApi.Controllers
 {
     public class ImageQueryParams
     {
-        int productId;
+        public Guid? productId;
+        public Guid? radarId;
+        public Guid? scanId;
+        public int? n;
     }
 }

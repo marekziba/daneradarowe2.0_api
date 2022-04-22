@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DaneradaroweApi.Models
 {
@@ -18,6 +20,7 @@ namespace DaneradaroweApi.Models
         public List<CompositeImage>? CompositeImages { get; set; }
 
         // M:N relationships
+        [JsonIgnore]
         public List<Radar>? Radars { get; set; }
         public List<Product>? Products { get; set; }
     }

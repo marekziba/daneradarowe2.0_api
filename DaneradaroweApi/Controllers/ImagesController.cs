@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DaneradaroweApi.Data;
 using DaneradaroweApi.Models;
 
 namespace DaneradaroweApi.Controllers
@@ -23,9 +24,21 @@ namespace DaneradaroweApi.Controllers
 
         // GET: api/Images
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Image>>> GetImages()
+        public async Task<ActionResult<IEnumerable<Image>>> GetImages(
+            [FromQuery] string radarId,
+            [FromQuery] string scanId,
+            [FromQuery] string productId,
+            [FromQuery] int? n
+            )
         {
-            return await _context.Images.ToListAsync();
+
+            return await _context.Images
+                .Where(i => (radarId == null || i.RadarID.ToString() == radarId))
+                .Where(i => (scanId == null || i.ScanID.ToString() == scanId))
+                .Where(i => (productId == null || i.ProductID.ToString() == productId))
+                .OrderByDescending(i => i.Date)
+                .Take(n != null? (int) n : _context.Images.Count())
+                .ToListAsync();
         }
 
         // GET: api/Images/5

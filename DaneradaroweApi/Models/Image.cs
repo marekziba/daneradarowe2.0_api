@@ -5,8 +5,6 @@ namespace DaneradaroweApi.Models
 {
     public class Image
     {
-        [ScaffoldColumn(false)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Url { get; set; } = String.Empty;
         public DateTime Date { get; set; }

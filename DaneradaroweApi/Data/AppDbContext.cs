@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using DaneradaroweApi.Models;
 
-namespace DaneradaroweApi.Models
+namespace DaneradaroweApi.Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        { 
-
+        {
+            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public DbSet<DataType> DataTypes { get; set; } = null!;
