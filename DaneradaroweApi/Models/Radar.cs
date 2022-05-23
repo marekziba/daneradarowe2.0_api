@@ -16,12 +16,12 @@ namespace DaneradaroweApi.Models
         public bool IsDP { get; set; }
 
         // 1:N relationships
-        public List<Volume>? Volumes { get; set; }
-        public List<Image>? Images { get; set; }
+        public ICollection<Volume>? Volumes { get; set; }
+        public ICollection<Image>? Images { get; set; }
         
         // M:N relationships
-        public List<CompositeImage>? CompositeImages { get; set; }
-        public List<Scan>? Scans { get; set; }
-        public List<Product>? Products { get; set; }
+        public ICollection<CompositeImage>? CompositeImages { get; set; }
+        public ICollection<Scan>? Scans { get; set; }
+        public ICollection<ProductType>? ProductTypes { get; set; }
     }
 }

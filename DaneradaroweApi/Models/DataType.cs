@@ -10,6 +10,8 @@ namespace DaneradaroweApi.Models
         public Guid Id { get; set; }
         public string? Name { get; set; }
         public string? ScaleUrl { get; set; }
+        public int ValueMin { get; set; }
+        public int ValueMax { get; set; }
 
         public List<Product> Products { get; set; } = default!;
     }

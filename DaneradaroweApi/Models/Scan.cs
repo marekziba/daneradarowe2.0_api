@@ -15,13 +15,15 @@ namespace DaneradaroweApi.Models
         public int Numele { get; set; }
 
         // 1:N relationships
-        public List<Volume>? Volumes { get; set; }
-        public List<Image>? Images { get; set; }
-        public List<CompositeImage>? CompositeImages { get; set; }
+        public ICollection<Volume>? Volumes { get; set; }
+        public ICollection<Image>? Images { get; set; }
+        public ICollection<CompositeImage>? CompositeImages { get; set; }
 
         // M:N relationships
         [JsonIgnore]
-        public List<Radar>? Radars { get; set; }
-        public List<Product>? Products { get; set; }
+        public ICollection<Radar>? Radars { get; set; }
+        [JsonIgnore]
+        public ICollection<Product>? Products { get; set; }
+        public ICollection<ProductType>? ProductTypes { get; set; }
     }
 }

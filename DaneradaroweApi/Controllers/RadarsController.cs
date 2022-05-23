@@ -28,7 +28,8 @@ namespace DaneradaroweApi.Controllers
         {
             return await _context.Radars
                 .Include(r => r.Scans)
-                .Include(r => r.Products)
+                .Include(r => r.ProductTypes)
+                .ThenInclude(p => p.Products)
                 .ToListAsync();
         }
 

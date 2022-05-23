@@ -10,14 +10,15 @@ var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AppDbContext>(opt => opt
+    .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options => options.AddPolicy(
     name: myAllowSpecificOrigins,
-    builder => builder.WithOrigins("http://localhost:4200", "http://localhost:3000")
+    builder => builder.AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader()
 ));

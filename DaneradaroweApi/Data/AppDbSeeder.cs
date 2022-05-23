@@ -19,8 +19,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Brzuchania",
                         CodeName = "BRZ",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 50.39417F,
+                        Lon = 20.07972F,
                         IsDoppler = true,
                         IsDP = true
                     };
@@ -29,8 +29,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Gdańsk",
                         CodeName = "GDA",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 54.38425F,
+                        Lon = 18.45631F,
                         IsDoppler = true,
                         IsDP = false
                     };
@@ -39,8 +39,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Legionowo",
                         CodeName = "LEG",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 52.405219F,
+                        Lon = 20.960911F,
                         IsDoppler = true,
                         IsDP = false
                     };
@@ -49,8 +49,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Pastewnik",
                         CodeName = "PAS",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 50.892F,
+                        Lon = 16.0395F,
                         IsDoppler = true,
                         IsDP = true
                     };
@@ -59,8 +59,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Poznań",
                         CodeName = "POZ",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 52.41326F,
+                        Lon = 16.79706F,
                         IsDoppler = true,
                         IsDP = false
                     };
@@ -69,8 +69,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Ramża",
                         CodeName = "RAM",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 50.15167F,
+                        Lon = 18.72667F,
                         IsDoppler = true,
                         IsDP = true
                     };
@@ -79,8 +79,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Rzeszów",
                         CodeName = "RZE",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 50.11409F,
+                        Lon = 22.03704F,
                         IsDoppler = true,
                         IsDP = true
                     };
@@ -89,8 +89,8 @@ namespace DaneradaroweApi.Data
                     {
                         FullName = "Świdwin",
                         CodeName = "SWI",
-                        Lat = 0.0F,
-                        Lon = 0.0F,
+                        Lat = 53.79028F,
+                        Lon = 15.83111F,
                         IsDoppler = true,
                         IsDP = false
                     };
@@ -149,12 +149,30 @@ namespace DaneradaroweApi.Data
 
                     #endregion
 
+                    #region ProductTypes
+
+                    ProductType ppi = new ProductType() { Name = "PPI", DefiningAttribute = "ElevationAngle" };
+                    ProductType cappi = new ProductType() { Name = "CAPPI", DefiningAttribute = "Height" };
+                    ProductType cmax = new ProductType() { Name = "CMAX"  };
+                    ProductType eht = new ProductType() { Name = "EHT", DefiningAttribute = "ReflectivityThreshold"  };
+
+                    ProductType[] productTypes = { ppi, cappi, cmax, eht };
+
+                    if (!context.ProductTypes.Any())
+                    {
+                        context.AddRange(productTypes);
+                        context.SaveChanges();
+                    }
+
+                    #endregion
+
                     #region Products
 
-                    Product PPI0_5_dbz = new Product() { Name = "PPI 0.5°", ProductType = "ppi", DataType = dbz, ElevationAngle = 0.5F, Radars = radars.ToList(), Scans = scans.ToList() };
-                    Product PPI0_5_v = new Product() { Name = "PPI 0.5°", ProductType = "ppi", DataType = v, ElevationAngle = 0.5F, Radars = radars.ToList(), Scans = scans.ToList() };
+                    Product PPI0_5_dbz = new Product() { Name = "PPI 0.5°", ProductType = ppi, DataType = dbz, ElevationAngle = 0.5F, Radars = radars.ToList(), Scan = doppler };
+                    Product PPI0_5_dbz_classic = new Product() { Name = "PPI 0.5°", ProductType = ppi, DataType = dbz, ElevationAngle = 0.5F, Radars = radars.ToList(), Scan = classic };
+                    Product PPI0_5_v = new Product() { Name = "PPI 0.5°", ProductType = ppi, DataType = v, ElevationAngle = 0.5F, Radars = radars.ToList(), Scan = doppler };
 
-                    Product[] products = { PPI0_5_dbz, PPI0_5_v };
+                    Product[] products = { PPI0_5_dbz, PPI0_5_dbz_classic, PPI0_5_v };
 
                     //context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Products ON;");
 
