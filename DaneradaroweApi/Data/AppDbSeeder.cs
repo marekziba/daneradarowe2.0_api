@@ -151,10 +151,10 @@ namespace DaneradaroweApi.Data
 
                     #region ProductTypes
 
-                    ProductType ppi = new ProductType() { Name = "PPI", DefiningAttribute = "ElevationAngle" };
-                    ProductType cappi = new ProductType() { Name = "CAPPI", DefiningAttribute = "Height" };
+                    ProductType ppi = new ProductType() { Name = "PPI" };
+                    ProductType cappi = new ProductType() { Name = "CAPPI" };
                     ProductType cmax = new ProductType() { Name = "CMAX"  };
-                    ProductType eht = new ProductType() { Name = "EHT", DefiningAttribute = "ReflectivityThreshold"  };
+                    ProductType eht = new ProductType() { Name = "EHT" };
 
                     ProductType[] productTypes = { ppi, cappi, cmax, eht };
 

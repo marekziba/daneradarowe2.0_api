@@ -19,6 +19,7 @@ namespace DaneradaroweApi.Models
         public Guid RadarID { get; set; }
         public Guid ScanID { get; set; }
         public Guid ProductID { get; set; }
+        public Guid SchemaID { get; set; }
 
         [JsonIgnore]
         public Radar Radar { get; set; } = default!;
@@ -26,6 +27,7 @@ namespace DaneradaroweApi.Models
         public Scan Scan { get; set; } = default!;
         [JsonIgnore]
         public Product Product { get; set; } = default!;
+        public ImageSchema Schema { get; set; } = default!;
 
     }
 }
