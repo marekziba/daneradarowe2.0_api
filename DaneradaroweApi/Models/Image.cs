@@ -27,7 +27,7 @@ namespace DaneradaroweApi.Models
         public Scan Scan { get; set; } = default!;
         [JsonIgnore]
         public Product Product { get; set; } = default!;
-        public ImageSchema Schema { get; set; } = default!;
+        public ImageSchema? Schema { get; set; } = default!;
 
     }
 }

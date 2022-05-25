@@ -27,7 +27,6 @@ namespace DaneradaroweApi.Controllers
         public async Task<ActionResult<IEnumerable<Radar>>> GetRadars()
         {
             return await _context.Radars
-                .Include(r => r.Scans)
                 .Include(r => r.ProductTypes)
                 .ThenInclude(p => p.Products)
                 .ToListAsync();
