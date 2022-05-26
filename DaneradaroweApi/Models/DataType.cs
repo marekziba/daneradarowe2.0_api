@@ -7,7 +7,7 @@ namespace DaneradaroweApi.Models
     {
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string? Name { get; set; }
         public string? ScaleUrl { get; set; }
         public int ValueMin { get; set; }

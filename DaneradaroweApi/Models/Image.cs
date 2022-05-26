@@ -9,12 +9,7 @@ namespace DaneradaroweApi.Models
         public Guid Id { get; set; }
         public string Url { get; set; } = String.Empty;
         public DateTime Date { get; set; }
-
-        // bounding box definition
-        public double lat_ul { get; set; }
-        public double lon_ul { get; set; }
-        public double lat_lr { get; set; }
-        public double lon_lr { get; set; }
+        public string MaskUrl { get; set; } = String.Empty;
 
         public Guid RadarID { get; set; }
         public Guid ScanID { get; set; }
