@@ -15,14 +15,21 @@ namespace DaneradaroweApi.Data
                 {
                     #region Radars
 
+                    Radar POLCOMP = new Radar() { 
+                        FullName = "Polska - mapa zbiorcza", 
+                        CodeName = "POLCOMP",
+                        Lat = null, 
+                        Lon = null, 
+                        IsComposite = true 
+                    };
+
                     Radar BRZ = new Radar()
                     {
                         FullName = "Brzuchania",
                         CodeName = "BRZ",
                         Lat = 50.39417F,
                         Lon = 20.07972F,
-                        IsDoppler = true,
-                        IsDP = true
+                        IsComposite = false
                     };
 
                     Radar GDA = new Radar()
@@ -31,8 +38,7 @@ namespace DaneradaroweApi.Data
                         CodeName = "GDA",
                         Lat = 54.38425F,
                         Lon = 18.45631F,
-                        IsDoppler = true,
-                        IsDP = false
+                        IsComposite= false
                     };
 
                     Radar LEG = new Radar()
@@ -41,8 +47,7 @@ namespace DaneradaroweApi.Data
                         CodeName = "LEG",
                         Lat = 52.405219F,
                         Lon = 20.960911F,
-                        IsDoppler = true,
-                        IsDP = false
+                        IsComposite = false
                     };
 
                     Radar PAS = new Radar()
@@ -51,8 +56,7 @@ namespace DaneradaroweApi.Data
                         CodeName = "PAS",
                         Lat = 50.892F,
                         Lon = 16.0395F,
-                        IsDoppler = true,
-                        IsDP = true
+                        IsComposite = false
                     };
 
                     Radar POZ = new Radar()
@@ -61,8 +65,7 @@ namespace DaneradaroweApi.Data
                         CodeName = "POZ",
                         Lat = 52.41326F,
                         Lon = 16.79706F,
-                        IsDoppler = true,
-                        IsDP = false
+                        IsComposite = false
                     };
 
                     Radar RAM = new Radar()
@@ -71,8 +74,7 @@ namespace DaneradaroweApi.Data
                         CodeName = "RAM",
                         Lat = 50.15167F,
                         Lon = 18.72667F,
-                        IsDoppler = true,
-                        IsDP = true
+                        IsComposite = false
                     };
 
                     Radar RZE = new Radar()
@@ -81,8 +83,7 @@ namespace DaneradaroweApi.Data
                         CodeName = "RZE",
                         Lat = 50.11409F,
                         Lon = 22.03704F,
-                        IsDoppler = true,
-                        IsDP = true
+                        IsComposite = false
                     };
 
                     Radar SWI = new Radar()
@@ -91,12 +92,12 @@ namespace DaneradaroweApi.Data
                         CodeName = "SWI",
                         Lat = 53.79028F,
                         Lon = 15.83111F,
-                        IsDoppler = true,
-                        IsDP = false
+                        IsComposite = false
                     };
 
                     Radar[] radars =
                     {
+                            POLCOMP,
                             BRZ,
                             GDA,
                             LEG,
@@ -117,8 +118,8 @@ namespace DaneradaroweApi.Data
 
                     #region Scans
 
-                    Scan doppler = new Scan() { name = "doppler", Range = 125, Numele = 10, Radars = radars.ToList() };
-                    Scan classic = new Scan() { name = "classic", Range = 250, Numele = 10, Radars = radars.ToList() };
+                    Scan doppler = new Scan() { Type = "doppler", Range = 125, Numele = 10, Radars = radars.ToList() };
+                    Scan classic = new Scan() { Type = "classic", Range = 250, Numele = 10, Radars = radars.ToList() };
 
                     Scan[] scans = { doppler, classic };
 
@@ -136,8 +137,8 @@ namespace DaneradaroweApi.Data
 
                     #region DataTypes
 
-                    DataType dbz = new DataType() { Name = "dBZ" };
-                    DataType v = new DataType() { Name = "V" };
+                    DataType dbz = new DataType() { Name = "dBZ", ScaleUrl = "assets/scales/dbz.cm", ValueMin = -31.5, ValueMax = 80 };
+                    DataType v = new DataType() { Name = "V", ScaleUrl = "assets/scales/v.dbz", ValueMin = -40, ValueMax = 40 };
 
                     DataType[] dtypes = { dbz, v };
 
@@ -149,36 +150,152 @@ namespace DaneradaroweApi.Data
 
                     #endregion
 
-                    #region ProductTypes
+                    #region Products
 
-                    ProductType ppi = new ProductType() { Name = "PPI" };
-                    ProductType cappi = new ProductType() { Name = "CAPPI" };
-                    ProductType cmax = new ProductType() { Name = "CMAX"  };
-                    ProductType eht = new ProductType() { Name = "EHT" };
+                    Radar[] singleRadars = {
+                            BRZ,
+                            GDA,
+                            LEG,
+                            PAS,
+                            POZ,
+                            RAM,
+                            RZE,
+                            SWI
+                        };
 
-                    ProductType[] productTypes = { ppi, cappi, cmax, eht };
+                    Product ppi_v_doppler = new Product() { ProductType = "ppi", CodeName = "ppi_125_v", FullName = "PPI(V)", DataType = v, Radars = singleRadars.ToList(), Scan = doppler };
+                    Product ppi_dbz_doppler = new Product() { ProductType = "ppi", CodeName = "ppi_125_dbz", FullName = "PPI(dBZ)", DataType = dbz, Radars = singleRadars.ToList(), Scan = doppler };
+                    Product ppi_dbz_classic = new Product() { ProductType = "ppi", CodeName ="ppi_250_dbz", FullName = "PPI(dBZ)", DataType = dbz, Radars = singleRadars.ToList(), Scan = classic };
 
-                    if (!context.ProductTypes.Any())
+                    Product cappi_v_doppler = new Product() { ProductType = "cappi", CodeName = "cappi_125_v", FullName = "CAPPI(V)", DataType = v, Radars = singleRadars.ToList(), Scan = doppler };
+                    Product cappi_dbz_doppler = new Product() { ProductType = "cappi", CodeName = "cappi_125_dbz", FullName = "CAPPI(dBZ)", DataType = dbz, Radars = singleRadars.ToList(), Scan = doppler };
+                    Product cappi_dbz_classic = new Product() { ProductType = "cappi", CodeName = "cappi_250_dbz", FullName = "CAPPI(dBZ)", DataType = dbz, Radars = radars.ToList(), Scan = classic };
+
+                    Product cmax_v_doppler = new Product() { ProductType = "cmax", CodeName = "cmax_125_v", FullName = "CMAX(V)", DataType = v, Radars = singleRadars.ToList(), Scan = doppler };
+                    Product cmax_dbz_doppler = new Product() { ProductType = "cmax", CodeName = "cmax_125_dbz", FullName = "CMAX(dBZ)", DataType = dbz, Radars =singleRadars.ToList(), Scan = doppler };
+                    Product cmax_dbz_classic = new Product() { ProductType = "cmax", CodeName = "cmax_250_dbz", FullName = "CMAX(dBZ)", DataType = dbz, Radars = radars.ToList(), Scan = classic };
+
+                    Product[] products =
                     {
-                        context.AddRange(productTypes);
+                        ppi_v_doppler,
+                        ppi_dbz_doppler,
+                        ppi_dbz_classic,
+                        cappi_v_doppler,
+                        cappi_dbz_doppler,
+                        cappi_dbz_classic,
+                        cmax_v_doppler,
+                        cmax_dbz_doppler,
+                        cmax_dbz_classic
+                    };
+
+                    if (!context.Products.Any())
+                    {
+                        context.Products.AddRange(products);
                         context.SaveChanges();
                     }
 
                     #endregion
 
-                    #region Products
+                    #region ProductsVariant
 
-                    Product PPI0_5_dbz = new Product() { Name = "PPI 0.5°", ProductType = ppi, DataType = dbz, ElevationAngle = 0.5F, Radars = radars.ToList(), Scan = doppler };
-                    Product PPI0_5_dbz_classic = new Product() { Name = "PPI 0.5°", ProductType = ppi, DataType = dbz, ElevationAngle = 0.5F, Radars = radars.ToList(), Scan = classic };
-                    Product PPI0_5_v = new Product() { Name = "PPI 0.5°", ProductType = ppi, DataType = v, ElevationAngle = 0.5F, Radars = radars.ToList(), Scan = doppler };
+                    List<ProductVariant> productVariants = new List<ProductVariant>();
+                    
+                    foreach(Radar radar in singleRadars)
+                    {
+                        double[] angles = { 0.5, 1.9, 3.6, 5.6 };
+                        foreach (double elev in angles){
+                            productVariants.Add(new ProductVariant()
+                            {
+                                Product = ppi_dbz_doppler,
+                                Radar = radar,
+                                PropertyName = "elevation",
+                                PropertyValue = elev.ToString(),
+                                PropertyUnit = "°"
+                            });
+                        }
 
-                    Product[] products = { PPI0_5_dbz, PPI0_5_dbz_classic, PPI0_5_v };
+                        foreach (double elev in angles)
+                        {
+                            productVariants.Add(new ProductVariant()
+                            {
+                                Product = ppi_v_doppler,
+                                Radar = radar,
+                                PropertyName = "elevation",
+                                PropertyValue = elev.ToString(),
+                                PropertyUnit = "°"
+                            });
+                        }
+
+                        angles = new double[] { 0.5, 1.4, 2.4, 3.6 };
+                        foreach (double elev in angles)
+                        {
+                            productVariants.Add(new ProductVariant()
+                            {
+                                Product = ppi_dbz_classic,
+                                Radar = radar,
+                                PropertyName = "elevation",
+                                PropertyValue = elev.ToString(),
+                                PropertyUnit = "°"
+                            });
+                        }
+
+                        int[] heights = { 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000 };
+                        Product[] cappis = { cappi_dbz_doppler, cappi_v_doppler, cappi_dbz_classic };
+                        foreach(int height in heights)
+                        {
+                            foreach(Product cappi in cappis)
+                            {
+                                productVariants.Add(new ProductVariant()
+                                {
+                                    Product = cappi,
+                                    Radar = radar,
+                                    PropertyName = "height",
+                                    PropertyValue = height.ToString(),
+                                    PropertyUnit = "m"
+                                });
+                            }
+                        }
+
+                        productVariants.Add(new ProductVariant()
+                        {
+                            Product = cmax_v_doppler,
+                            Radar = radar
+                        });
+
+                        productVariants.Add(new ProductVariant()
+                        {
+                            Product = cmax_dbz_doppler,
+                            Radar = radar
+                        });
+
+                        productVariants.Add(new ProductVariant()
+                        {
+                            Product = cmax_dbz_classic,
+                            Radar = radar
+                        });
+                    }
+
+                    productVariants.AddRange(
+                        new ProductVariant[]
+                        {
+                            new ProductVariant() { Product = cmax_dbz_classic, Radar = POLCOMP },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "1000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "2000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "3000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "4000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "5000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "6000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "7000", PropertyName = "height", PropertyUnit = "m" },
+                            new ProductVariant() { Product = cappi_dbz_classic, Radar = POLCOMP, PropertyValue = "8000", PropertyName = "height", PropertyUnit = "m" },
+                        }
+                    );
 
                     //context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT Products ON;");
 
-                    if (!context.Products.Any())
+                    if (!context.ProductVariants.Any())
                     {
-                        context.Products.AddRange(products);
+                        Console.WriteLine(productVariants);
+                        context.ProductVariants.AddRange(productVariants);
                         context.SaveChanges();
                     }
 
@@ -188,65 +305,7 @@ namespace DaneradaroweApi.Data
 
                     #region Images
 
-                    Image[] images =
-                        {
-                            new Image() {
-                                Id = Guid.NewGuid(),
-                                Url = "https://daneradarowe.pl/img/POZ_125/2022033015435000dBZ.ppi_1.png",
-                                Date = DateTime.UtcNow,
-                                Radar = POZ,
-                                Scan = doppler,
-                                Product = PPI0_5_dbz
-                            },
-                            new Image() {
-                                Id = Guid.NewGuid(),
-                                Url = "https://daneradarowe.pl/img/POZ_125/2022033015435000dBZ.ppi_1.png",
-                                Date = DateTime.UtcNow,
-                                Radar = POZ,
-                                Scan = classic,
-                                Product = PPI0_5_dbz
-                            },
-                            new Image() {
-                                Id = Guid.NewGuid(),
-                                Url = "https://daneradarowe.pl/img/POZ_125/2022033015435000dBZ.ppi_1.png",
-                                Date = DateTime.UtcNow,
-                                Radar = BRZ,
-                                Scan = doppler,
-                                Product = PPI0_5_dbz
-                            },
-                            new Image() {
-                                Id = Guid.NewGuid(),
-                                Url = "https://daneradarowe.pl/img/POZ_125/2022033015435000dBZ.ppi_1.png",
-                                Date = DateTime.UtcNow,
-                                Radar= BRZ,
-                                Scan = classic,
-                                Product = PPI0_5_dbz
-                            },
-                            new Image() {
-                                Id = Guid.NewGuid(),
-                                Url = "https://daneradarowe.pl/img/POZ_125/2022033015435000dBZ.ppi_1.png",
-                                Date = DateTime.UtcNow,
-                                Radar = LEG,
-                                Scan = doppler,
-                                Product = PPI0_5_dbz
-                            },
-                            new Image() {
-                                Id = Guid.NewGuid(),
-                                Url = "https://daneradarowe.pl/img/POZ_125/2022033015435000dBZ.ppi_1.png",
-                                Date = DateTime.UtcNow,
-                                Radar = LEG,
-                                Scan = classic,
-                                Product = PPI0_5_dbz,
-                            }
-                        };
-
-                    //context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Images ON;");
-
-                    if (!context.Images.Any())
-                    {
-                        context.Images.AddRange(images);
-                        context.SaveChanges();
-                    }
+                    
 
                     //context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Images OFF;");
 

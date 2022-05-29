@@ -23,46 +23,56 @@ namespace DaneradaroweApi.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductType>>> GetProductTypes()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
+            [FromQuery] int? radarId
+            )
         {
-          if (_context.ProductTypes == null)
+          if (_context.Products == null)
           {
               return NotFound();
           }
-            return await _context.ProductTypes.Include(p => p.Products).ToListAsync();
+
+          Radar? radar = await _context.Radars.FindAsync(radarId);
+
+          return await _context.Products
+                .Where(p => (radar == null || p.Radars.Contains(radar)))
+                .Include(p => p.Variants.Where(pv => (radarId == null || pv.RadarId == radarId)))
+                .Include(p => p.DataType)
+                .Include(p => p.Scan)
+                .ToListAsync();
         }
 
         // GET: api/Products/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductType>> GetProductType(Guid id)
+        public async Task<ActionResult<Product>> GetProduct(Guid id)
         {
-          if (_context.ProductTypes == null)
+          if (_context.Products == null)
           {
               return NotFound();
           }
-            var productType = await _context.ProductTypes.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
-            if (productType == null)
+            if (product == null)
             {
                 return NotFound();
             }
 
-            await _context.Entry(productType).Collection(p => p.Products).LoadAsync();
+            await _context.Entry(product).Collection(p => p.Variants).LoadAsync();
 
-            return productType;
+            return product;
         }
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductType(Guid id, ProductType productType)
+        public async Task<IActionResult> PutProduct(int id, Product product)
         {
-            if (id != productType.Id)
+            if (id != product.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(productType).State = EntityState.Modified;
+            _context.Entry(product).State = EntityState.Modified;
 
             try
             {
@@ -70,7 +80,7 @@ namespace DaneradaroweApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductTypeExists(id))
+                if (!ProductExists(id))
                 {
                     return NotFound();
                 }
@@ -86,41 +96,41 @@ namespace DaneradaroweApi.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ProductType>> PostProductType(ProductType productType)
+        public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-          if (_context.ProductTypes == null)
+          if (_context.Products == null)
           {
-              return Problem("Entity set 'AppDbContext.ProductTypes'  is null.");
+              return Problem("Entity set 'AppDbContext.Products'  is null.");
           }
-            _context.ProductTypes.Add(productType);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProductType", new { id = productType.Id }, productType);
+            return CreatedAtAction("GetProductType", new { id = product.Id }, product);
         }
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductType(Guid id)
         {
-            if (_context.ProductTypes == null)
+            if (_context.Products == null)
             {
                 return NotFound();
             }
-            var productType = await _context.ProductTypes.FindAsync(id);
-            if (productType == null)
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
             {
                 return NotFound();
             }
 
-            _context.ProductTypes.Remove(productType);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ProductTypeExists(Guid id)
+        private bool ProductExists(int id)
         {
-            return (_context.ProductTypes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

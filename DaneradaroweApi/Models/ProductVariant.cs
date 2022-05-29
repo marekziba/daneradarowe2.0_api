@@ -1,20 +1,24 @@
-﻿namespace DaneradaroweApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+
+namespace DaneradaroweApi.Models
 {
     public class ProductVariant
     {
         public int Id { get; set; }
-        public string SpecDef { get; set; } = String.Empty;
+        
+        public string? PropertyName { get; set; } = string.Empty;
+        public string? PropertyValue { get; set; } = string.Empty;
+        public string? PropertyUnit { get; set; } = string.Empty;
 
-        // product-specific parameters
-        public float? ElevationAngle { get; set; }      // PPI
-        public int? MinHeight { get; set; }     // CMAX, VIL
-        public int? MaxHeight { get; set; }     // CMAX, VIL
-        public int? Height { get; set; }        // CAPPI, PCAPPI
-        public int? StartRange { get; set; }    // PCAPPI
-        public int? StopRange { get; set; }     // PCAPPI
-        public float? ReflectivityThreshold { get; set; }   // EHT
+        public int ProductId { get; set; }
+        public int RadarId { get; set; }
 
+        [JsonIgnore]
         public Product Product { get; set; } = default!;
+        [JsonIgnore]
+        public Radar Radar { get; set; } = default!;    
 
         public ICollection<Image> Images { get; set; } = new List<Image>();
     }

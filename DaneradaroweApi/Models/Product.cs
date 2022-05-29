@@ -13,7 +13,14 @@ namespace DaneradaroweApi.Models
         public string CodeName { get; set; } = String.Empty;
         public string FullName { get; set; } = String.Empty;
 
-        public Radar Radar { get; set; } = default!;
+        public int DataTypeId { get; set; }
+        public int ScanId { get; set; }
+
         public DataType DataType { get; set; }= default!;
+        public Scan Scan { get; set; } = default!;
+
+        public ICollection<ProductVariant>? Variants { get; set; }
+        [JsonIgnore]
+        public ICollection<Radar> Radars { get; set; } = default!;
     }
 }

@@ -27,8 +27,7 @@ namespace DaneradaroweApi.Controllers
         public async Task<ActionResult<IEnumerable<Radar>>> GetRadars()
         {
             return await _context.Radars
-                .Include(r => r.ProductTypes)
-                .ThenInclude(p => p.Products)
+                .Include(r => r.Products)
                 .ToListAsync();
         }
 
@@ -49,7 +48,7 @@ namespace DaneradaroweApi.Controllers
         // PUT: api/Radars/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRadar(Guid id, Radar radar)
+        public async Task<IActionResult> PutRadar(int id, Radar radar)
         {
             if (id != radar.Id)
             {
@@ -104,7 +103,7 @@ namespace DaneradaroweApi.Controllers
             return NoContent();
         }
 
-        private bool RadarExists(Guid id)
+        private bool RadarExists(int id)
         {
             return _context.Radars.Any(e => e.Id == id);
         }

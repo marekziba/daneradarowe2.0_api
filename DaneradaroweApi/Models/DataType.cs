@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DaneradaroweApi.Models
 {
@@ -10,9 +11,10 @@ namespace DaneradaroweApi.Models
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? ScaleUrl { get; set; }
-        public int ValueMin { get; set; }
-        public int ValueMax { get; set; }
+        public double ValueMin { get; set; }
+        public double ValueMax { get; set; }
 
+        [JsonIgnore]
         public List<Product> Products { get; set; } = default!;
     }
 }

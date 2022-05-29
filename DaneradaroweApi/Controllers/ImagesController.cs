@@ -89,12 +89,13 @@ namespace DaneradaroweApi.Controllers
         // POST: api/Images
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Image>> PostImage(Image image)
+        public async Task<ActionResult<Image>> PostImage(Image[] images)
         {
-            _context.Images.Add(image);
+            _context.Images.AddRange(images);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetImage", new { id = image.Id }, image);
+            return CreatedAtAction("GetImage", images);
+            //return NoContent();
         }
 
         // DELETE: api/Images/5

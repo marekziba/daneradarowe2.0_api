@@ -7,7 +7,7 @@ namespace DaneradaroweApi.Models
     {
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
         public int RadarID { get; set; }
