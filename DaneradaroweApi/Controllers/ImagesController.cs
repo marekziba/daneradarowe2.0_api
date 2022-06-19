@@ -55,47 +55,28 @@ namespace DaneradaroweApi.Controllers
             return image;
         }
 
-        // PUT: api/Images/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutImage(Guid id, Image image)
-        {
-            if (id != image.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(image).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/Images
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Image>> PostImage(Image[] images)
+        [Route("addMultiple")]
+        public async Task<ActionResult<Image>> PostImages(Image[] images)
         {
             _context.Images.AddRange(images);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetImage", images);
+            // return CreatedAtAction("GetImage", images);
             //return NoContent();
+            return new JsonResult(new {status = "OK"});
+        }
+
+        [HttpPost]
+        [Route("addSingle")]
+        public async Task<ActionResult<Image>> PostImage(Image image)
+        {
+            _context.Images.Add(image);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetImage", new {id = image.Id}, image);
         }
 
         // DELETE: api/Images/5

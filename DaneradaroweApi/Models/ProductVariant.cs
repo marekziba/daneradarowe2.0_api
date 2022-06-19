@@ -12,6 +12,11 @@ namespace DaneradaroweApi.Models
         public string? PropertyValue { get; set; } = string.Empty;
         public string? PropertyUnit { get; set; } = string.Empty;
 
+        public double lat_ul { get; set; }
+        public double lon_ul { get; set; }
+        public double lat_lr { get; set; }
+        public double lon_lr { get; set; }
+
         public int ProductId { get; set; }
         public int RadarId { get; set; }
 
