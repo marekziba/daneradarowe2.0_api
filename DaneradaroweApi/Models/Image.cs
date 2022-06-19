@@ -11,12 +11,10 @@ namespace DaneradaroweApi.Models
         public DateTime Date { get; set; }
         public string MaskUrl { get; set; } = String.Empty;
 
-        public Guid RadarID { get; set; }
-        public Guid ScanID { get; set; }
-        public Guid ProductID { get; set; }
-        public Guid SchemaID { get; set; }
-
-        public int MaskId { get; set; }
+        public int RadarID { get; set; }
+        public int ScanID { get; set; }
+        public int ProductID { get; set; }
+        public int MetaID { get; set; }
 
         [JsonIgnore]
         public Radar Radar { get; set; } = default!;
@@ -24,5 +22,6 @@ namespace DaneradaroweApi.Models
         public Scan Scan { get; set; } = default!;
         [JsonIgnore]
         public Product Product { get; set; } = default!;
+        public ImageMeta Meta { get; set; } = default!;
     }
 }

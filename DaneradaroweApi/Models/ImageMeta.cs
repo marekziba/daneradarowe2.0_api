@@ -10,10 +10,12 @@ namespace DaneradaroweApi.Models
         //public string MaskUrl { get; set; } = string.Empty;
         public string CodeName { get; set; } = string.Empty;
 
-        public double lat_ul { get; set; }
-        public double lon_ul { get; set; }
-        public double lat_lr { get; set; }
-        public double lon_lr { get; set; }
+        public double Lat_ul { get; set; }
+        public double Lon_ul { get; set; }
+        public double Lat_lr { get; set; }
+        public double Lon_lr { get; set; }
+
+        public string MaskUrl { get; set; } = string.Empty;
 
         [JsonIgnore]
         public ICollection<Image> Images { get; set; } = new List<Image>();

@@ -13,18 +13,19 @@ services:
     networks:
       - daneradarowe
     depends_on:
-      - postgres
+      - mysql
 
-  postgres:
-    image: postgres:latest
-    container_name: daneradarowe_postgres
+  mysql:
+    image: mysql:5.7
+    container_name: daneradarowe_mysql
     ports:
-      - 5432:5432
+      - 3306:3306
     networks:
       - daneradarowe
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=postgres
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=daneradarowe
+      - MYSQL_PASSWORD=daneradarowe
 
 networks:
   daneradarowe:
